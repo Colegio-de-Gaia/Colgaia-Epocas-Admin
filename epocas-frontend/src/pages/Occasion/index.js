@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 // import { Container } from './styles';
-import { Card, CardTitle, Navbar, Container } from "../../styles";
+import {
+  Card,
+  CardTitle,
+  Navbar,
+  Container,
+  SmallCard,
+  SmallCardTitle,
+  Muted
+} from "../../styles";
 import Grid from "styled-components-grid";
 import { Margin } from "styled-components-spacing";
 import { useParams } from "react-router-dom";
@@ -11,6 +19,12 @@ import { toast } from "react-toastify";
 export const Occasion = props => {
   const { id } = useParams();
   const [occasion, setOccasion] = useState([]);
+  const [callendar, setCallendar] = useState([]);
+
+  const addCallendar = date => {
+    const newCallendar = [...callendar, { date }];
+    setCallendar(newCallendar);
+  };
 
   useEffect(() => {
     async function handleOccasion() {
@@ -31,13 +45,25 @@ export const Occasion = props => {
       if (occasion.start_at == null) return;
       const [sDay, sMonth, sYear] = occasion.start_at.split("-");
       const [eDay, eMonth, eYear] = occasion.end_at.split("-");
+      const startDate = new Date(sYear, sMonth - 1, sDay);
+      const endDate = new Date(eYear, eMonth - 1, eDay);
 
-      var startDate = new Date(sYear, sMonth, sDay);
-      var endDate = new Date(eYear, eMonth, eDay);
+      let dates = [];
 
       for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
-        console.log(d.getDay());
+        dates = [
+          ...dates,
+          {
+            year: d.getFullYear(),
+            month: d.getMonth(),
+            day: d.getDay(),
+            toString: d.toDateString()
+          }
+        ];
       }
+
+      setCallendar(dates);
+      console.log(dates);
     }
 
     populateCalendar();
@@ -51,7 +77,20 @@ export const Occasion = props => {
           <Margin top={5} horizontal={5}>
             <Card>
               <CardTitle>{occasion.name}</CardTitle>
-              <Grid></Grid>
+              <Grid>
+                {callendar.map((value, index) => {
+                  return (
+                    <Grid.Unit size={1 / 4}>
+                      <Margin right={3} bottom={3}>
+                        <SmallCard key={index}>
+                          <SmallCardTitle>Dia {index + 1}</SmallCardTitle>
+                          <Muted>{value.toString}</Muted>
+                        </SmallCard>
+                      </Margin>
+                    </Grid.Unit>
+                  );
+                })}
+              </Grid>
             </Card>
           </Margin>
         </Grid.Unit>
