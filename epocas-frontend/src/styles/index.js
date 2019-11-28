@@ -12,7 +12,7 @@ export const GlobalStyles = createGlobalStyle`
 `;
 
 export const Navbar = styled.div`
-  background-color: #155e37;
+  background-color: #093d5c;
   height: 7vh;
   display: flex;
   align-items: center;
@@ -20,9 +20,7 @@ export const Navbar = styled.div`
   color: white;
   font-weight: bold;
   font-size: 2rem;
-  padding: 0 10%;
-
-  box-shadow: -3px 7px 36px -15px rgba(0, 0, 0, 0.62);
+  padding: 10px 5%;
 `;
 
 export const Card = styled.div`
@@ -33,7 +31,7 @@ export const Card = styled.div`
 `;
 
 export const CardTitle = styled.h2`
-  color: #155e37;
+  color: #093d5c;
   font-weight: bold;
   margin-bottom: 25px;
 `;
@@ -47,10 +45,10 @@ export const SmallCard = styled.div`
   cursor: pointer;
 `;
 
-export const SmallCardTitle = styled.h2`
-  color: #155e37;
+export const SmallCardTitle = styled.h3`
+  color: #093d5c;
   font-weight: bold;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 `;
 
 export const Muted = styled.p``;
