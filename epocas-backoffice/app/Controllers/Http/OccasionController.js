@@ -91,6 +91,27 @@ class OccasionController {
 
     await occasion.delete();
   }
+
+  async current({ request, response }) {
+    const occasions = await Occasion.all();
+    const date = Date.now();
+    let current = -1;
+
+    occasions.rows.forEach(occasion => {
+      const [sDay, sMonth, sYear] = occasion.start_at.split("-");
+      const [eDay, eMonth, eYear] = occasion.end_at.split("-");
+
+      const startDate = new Date(sYear, sMonth - 1, sDay);
+      const endDate = new Date(eYear, eMonth - 1, eDay + 1);
+      console.log(endDate.toDateString());
+
+      if (date >= startDate && date <= endDate) {
+        current = occasion.id;
+      }
+    });
+
+    return { id: current };
+  }
 }
 
 module.exports = OccasionController;
