@@ -21,10 +21,14 @@ const schema = Yup.object().shape({
   end_at: Yup.date()
     .required()
     .typeError("Este campo é obrigatório")
+    // ? This is the same as an if statement
+    // ? The end_at date at should be higher
+    // ? than the start_at date, so we use .min
     .min(Yup.ref("start_at"))
 });
 
 export const CreateOccasion = props => {
+
   async function handleSubmit(data) {
     try {
       const response = await api.post("api/occasions", data);

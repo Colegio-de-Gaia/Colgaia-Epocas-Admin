@@ -15,7 +15,9 @@ export const Home = props => {
   async function handleOccasions() {
     try {
       const response = await api.get("api/occasions");
+
       Reactotron.log(response);
+
       setOccasions(response.data);
     } catch (err) {
       toast.error("Não foi possivel ler as épocas");

@@ -37,6 +37,7 @@ export const Occasion = props => {
   useEffect(() => {
     function populateCalendar() {
       if (occasion.start_at == null) return;
+
       const startDate = new Date(occasion.start_at);
       const endDate = new Date(occasion.end_at);
 
@@ -62,7 +63,7 @@ export const Occasion = props => {
 
   async function deleteOccasion() {
     try {
-      const response = await api.delete("api/occasions/" + occasion.id);
+      await api.delete("api/occasions/" + occasion.id);
       props.history.push("/");
     } catch (err) {
       toast.error("Não foi possível remover a época");
