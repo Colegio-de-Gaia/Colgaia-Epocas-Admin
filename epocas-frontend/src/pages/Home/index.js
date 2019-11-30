@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api";
-
+import { Container } from "../../styles";
 import { toast } from "react-toastify";
-import { Container } from "./styles";
-import {
-  Card,
-  CardTitle,
-  SmallCard,
-  SmallCardTitle,
-  Navbar,
-  Muted
-} from "../../styles";
-import Grid from "styled-components-grid";
-import { Margin } from "styled-components-spacing";
+
+import api from "../../services/api";
+import Reactotron from "reactotron-react-js";
 
 export const Home = props => {
   const [occasions, setOccasions] = useState([]);
@@ -24,7 +15,7 @@ export const Home = props => {
   async function handleOccasions() {
     try {
       const response = await api.get("api/occasions");
-      console.log(response.data);
+      Reactotron.log(response);
       setOccasions(response.data);
     } catch (err) {
       toast.error("Não foi possivel ler as épocas");
@@ -38,34 +29,61 @@ export const Home = props => {
 
   return (
     <Container>
-      <Navbar>Home</Navbar>
-      <Grid>
-        <Grid.Unit size={1}>
-          <Margin top={5} horizontal={5}>
-            <Card>
-              <CardTitle>Épocas</CardTitle>
-              <Grid>
-                {occasions.map((value, index) => {
-                  return (
-                    <Grid.Unit key={index} size={1 / 4}>
-                      <Margin right={2}>
-                        <SmallCard
-                          onClick={redirectOccasion.bind(this, value.id)}
-                        >
-                          <SmallCardTitle>{value.name}</SmallCardTitle>
-                          <Muted>
-                            {value.start_at} - {value.end_at}
-                          </Muted>
-                        </SmallCard>
-                      </Margin>
-                    </Grid.Unit>
-                  );
-                })}
-              </Grid>
-            </Card>
-          </Margin>
-        </Grid.Unit>
-      </Grid>
+      <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb m-0 bg-primary">
+            <li
+              className="breadcrumb-item active text-white"
+              aria-current="page"
+            >
+              Home
+            </li>
+          </ol>
+        </nav>
+      </nav>
+      <div className="container">
+        <div className="card my-5">
+          <div className="card-body">
+            <h5 className="card-title">
+              Épocas
+              <a
+                href="/occasion/create"
+                className="btn btn-primary float-right"
+              >
+                Nova época
+              </a>
+            </h5>
+
+            <p className="card-text">Lista das épocas criadas</p>
+
+            <div className="list-group mb-5">
+              {occasions.map((occasion, index) => {
+                return (
+                  <a
+                    onClick={redirectOccasion.bind(this, occasion.id)}
+                    href=""
+                    className="list-group-item list-group-item-action"
+                  >
+                    <div className="d-flex w-100 justify-content-between">
+                      <h5 className="mb-1">{occasion.name}</h5>
+                      <small>Criado em: {occasion.created_at}</small>
+                    </div>
+                    <p className="mb-1 text-truncate">{occasion.description}</p>
+                    <small>
+                      <strong>Inicio:</strong>
+                      {new Date(occasion.start_at).toLocaleDateString()}
+                    </small>
+                    <small className="ml-3">
+                      <strong>Fim:</strong>
+                      {new Date(occasion.end_at).toLocaleDateString()}
+                    </small>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
     </Container>
   );
 };

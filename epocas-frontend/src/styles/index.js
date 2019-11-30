@@ -6,12 +6,12 @@ export const GlobalStyles = createGlobalStyle`
   body {
     font-family: 'Roboto', sans-serif;  
     margin: 0;
-    background-color: #efe6e1;
+    background-color: #eeeeee;
     flex-grow: 1;
   }
 `;
 
-export const Navbar = styled.div`
+/*export const Navbar = styled.div`
   background-color: #093d5c;
   height: 7vh;
   display: flex;
@@ -21,7 +21,7 @@ export const Navbar = styled.div`
   font-weight: bold;
   font-size: 2rem;
   padding: 10px 5%;
-`;
+`;*/
 
 export const Card = styled.div`
   background: white;
@@ -54,3 +54,5 @@ export const SmallCardTitle = styled.h3`
 export const Muted = styled.p``;
 
 export const Container = styled.div``;
+
+export const Label = styled.p``;
