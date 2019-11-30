@@ -108,12 +108,8 @@ class OccasionController {
 		let current = -1;
 
 		occasions.rows.forEach(occasion => {
-			// Converts dates to variables by spliting them
-			const [sDay, sMonth, sYear] = occasion.start_at.split("-");
-			const [eDay, eMonth, eYear] = occasion.end_at.split("-");
-
-			const startDate = new Date(sYear, sMonth - 1, sDay);
-			const endDate = new Date(eYear, eMonth - 1, eDay + 1);
+			const startDate = new Date(occasion.start_at);
+			const endDate = new Date(occasion.end_at);
 
 			if (date >= startDate && date <= endDate) {
 				current = occasion.id;
