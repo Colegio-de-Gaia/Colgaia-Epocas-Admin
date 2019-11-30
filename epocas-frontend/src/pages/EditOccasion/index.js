@@ -31,27 +31,45 @@ export const EditOccasion = props => {
     end_at: Yup.date()
       .required()
       .typeError("Este campo é obrigatório")
+      // ? This is the same as an if statement
+      // ? The end_at date at should be higher
+      // ? than the start_at date, so we use .min
       .min(Yup.ref("start_at"))
   });
 
   useEffect(() => {
+
     async function handleOccasion() {
       try {
         const response = await api.get("/api/occasions/" + id);
+        // * We create this variable 'cause we're lazy
+        const responseData = response.data;
 
-        setStart(moment(new Date(response.data.start_at)).format("YYYY-MM-DD"));
-        setEnd(moment(new Date(response.data.end_at)).format("YYYY-MM-DD"));
+        // ? This is the data format we'll be using
+        // ? better get used to it, or you'll have
+        // ? a really hard time changing it all
+        const dateFormat = "YYYY-MM-DD";
 
-        setOccasion(response.data);
+        setStart(
+          moment(
+            Date(responseData.start_at)
+          ).format(dateFormat));
+        setEnd(
+          moment(
+            Date(responseData.end_at)
+          ).format(dateFormat));
+
+        setOccasion(responseData);
       } catch (error) {
         console.log(error);
         toast.error("Não foi possível fazer a query");
       }
     }
+
     handleOccasion();
   }, []);
 
-  async function handleSubmit(data) {}
+  async function handleSubmit(data) { }
 
   return (
     <Container>
