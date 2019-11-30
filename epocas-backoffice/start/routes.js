@@ -16,10 +16,6 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-Route.get("/", () => {
-  return { greeting: "Hello world in JSON" };
-});
-
 Route.post("/sessions", "SessionController.create");
 
 Route.resource("api/occasions", "OccasionController")
@@ -33,3 +29,5 @@ Route.resource("api/days", "DayController")
 Route.get("images/:path", "DayImageController.show");
 
 Route.post("api/days/:id/image", "DayImageController.store").middleware("auth");
+
+Route.get("api/current/occasion", "OccasionController.current");
