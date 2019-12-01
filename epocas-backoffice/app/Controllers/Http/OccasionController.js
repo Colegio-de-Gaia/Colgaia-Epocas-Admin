@@ -103,7 +103,7 @@ class OccasionController {
 	async current({ request, response }) {
 		const occasions = await Occasion.all();
 		const date = Date.now();
-
+		let cOccasion;
 		// In case there's no current occasion, it will return -1
 		let current = -1;
 
@@ -113,10 +113,11 @@ class OccasionController {
 
 			if (date >= startDate && date <= endDate) {
 				current = occasion.id;
+				cOccasion = occasion;
 			}
 		});
 
-		return { id: current };
+		return current == -1 ? { id: current } : cOccasion;
 	}
 }
 
