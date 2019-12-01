@@ -29,6 +29,7 @@ const Routes = () => (
       <PrivateRoute path="/occasion/create" component={CreateOccasion} />
       <PrivateRoute exact path="/occasion/:id" component={Occasion} />
       <PrivateRoute exact path="/occasion/:id/edit" component={EditOccasion} />
+
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>

@@ -38,7 +38,6 @@ export const EditOccasion = props => {
   });
 
   useEffect(() => {
-
     async function handleOccasion() {
       try {
         const response = await api.get("/api/occasions/" + id);
@@ -50,14 +49,8 @@ export const EditOccasion = props => {
         // ? a really hard time changing it all
         const dateFormat = "YYYY-MM-DD";
 
-        setStart(
-          moment(
-            Date(responseData.start_at)
-          ).format(dateFormat));
-        setEnd(
-          moment(
-            Date(responseData.end_at)
-          ).format(dateFormat));
+        setStart(moment(new Date(responseData.start_at)).format(dateFormat));
+        setEnd(moment(new Date(responseData.end_at)).format(dateFormat));
 
         setOccasion(responseData);
       } catch (error) {
@@ -69,7 +62,14 @@ export const EditOccasion = props => {
     handleOccasion();
   }, []);
 
-  async function handleSubmit(data) { }
+  async function handleSubmit(data) {
+    try {
+      await api.put("/api/occasions/" + occasion.id, data);
+      props.history.push("../../occasion/" + occasion.id);
+    } catch (error) {
+      toast.error("Não foi possível editar");
+    }
+  }
 
   return (
     <Container>

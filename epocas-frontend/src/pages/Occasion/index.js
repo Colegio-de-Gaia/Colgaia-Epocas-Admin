@@ -12,7 +12,9 @@ export const Occasion = props => {
   const { id } = useParams();
   const [occasion, setOccasion] = useState([]);
   const [callendar, setCallendar] = useState([]);
+  const [day, setDay] = useState([]);
   const [Modal, open, close] = useModal("root");
+  const [DayModal, openDay, closeDay] = useModal("root");
 
   const addCallendar = date => {
     const newCallendar = [...callendar, { date }];
@@ -61,6 +63,8 @@ export const Occasion = props => {
     populateCalendar();
   }, [occasion]);
 
+  function handleDayOpen(day, index) {}
+
   async function deleteOccasion() {
     try {
       await api.delete("api/occasions/" + occasion.id);
@@ -72,6 +76,40 @@ export const Occasion = props => {
 
   return (
     <Container>
+      <DayModal>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
+                Editar Dia
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                onClick={closeDay}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">...</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-dismiss="modal"
+                onClick={closeDay}
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </DayModal>
       <Modal>
         <div className="modal-dialog " role="document">
           <div className="modal-content">
@@ -131,9 +169,12 @@ export const Occasion = props => {
           <h1 className="display-4 text-white">
             {occasion.name}
             <div className="float-right row">
-              <button className="btn btn-sm text-white btn-info mr-2">
+              <a
+                href={occasion.id + "/edit"}
+                className="btn btn-sm text-white btn-info mr-2"
+              >
                 Editar
-              </button>
+              </a>
               <button
                 className="btn btn-sm btn-danger text-white"
                 onClick={open}
@@ -151,7 +192,13 @@ export const Occasion = props => {
           {callendar.map((day, index) => {
             if (occasion.days[index]) {
               return (
-                <div key={index} className="col-sm-2">
+                <div
+                  key={index}
+                  className="col-sm-2"
+                  onClick={() => {
+                    this.handleDayOpen(occasion.days[index], index);
+                  }}
+                >
                   <div className="card text-center my-2 border-success">
                     <div className="card-body m-0">
                       <h5 className="m-0">Dia {index + 1}</h5>
@@ -162,7 +209,17 @@ export const Occasion = props => {
               );
             } else {
               return (
-                <div key={index} className="col-sm-2">
+                <div
+                  key={index}
+                  className="col-sm-2"
+                  onClick={openDay}
+                  onClick={() => {
+                    this.handleDayOpen(
+                      { occasion_id: occasion.id, date: day },
+                      index
+                    );
+                  }}
+                >
                   <div className="card text-center my-2 border-warning">
                     <div className="card-body m-0">
                       <h5 className="m-0">Dia {index + 1}</h5>
