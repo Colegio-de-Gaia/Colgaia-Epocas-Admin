@@ -75,6 +75,7 @@ class DayController {
 	 * @param {Response} ctx.response
 	 */
 	async update({ params, request, response }) {
+		const day = await Day.findOrFail(params.id);
 		const data = request.only([
 			"date",
 			"sentence",
@@ -84,6 +85,12 @@ class DayController {
 			"reflection",
 			"occasion_id"
 		]);
+
+		day.merge(data);
+
+		await day.save();
+
+		return day;
 	}
 
 	/**
