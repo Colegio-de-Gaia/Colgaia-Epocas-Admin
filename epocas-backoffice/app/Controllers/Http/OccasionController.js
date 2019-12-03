@@ -117,6 +117,8 @@ class OccasionController {
 			}
 		});
 
+		if (current != -1) await cOccasion.load("days");
+
 		return current == -1 ? { id: current } : cOccasion;
 	}
 }
